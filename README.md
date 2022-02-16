@@ -1,5 +1,5 @@
 # Shape-of-Stories
-A movie script visualizer based on Kurt Vonnegut's rejected thesis on the Shape of Stories. This was a personal project coded in Python using BeautifulSoup for webscraping, Python's Natural Language Toolkit (NLTK) for sentiment analysis, and Dash with Plotly for visualization. 
+A movie script visualizer based on Kurt Vonnegut's rejected thesis, The Shape of Stories. This was a personal project coded in Python using BeautifulSoup for webscraping, Python's Natural Language Toolkit (NLTK) for sentiment analysis, and Dash with Plotly for visualization. 
 
 # Inspiration
 
@@ -34,10 +34,15 @@ As a total movie addict looking to practice data viz techniques, I decided to tr
     Dash is running on http://127.0.0.1:8050/ <-- Example URL
 
     Serving Flask app "ShapeOfStories" (lazy loading)
+    
     Environment: production
+    
     WARNING: This is a development server. Do not use it in a production deployment.
+    
     Use a production WSGI server instead.
+    
     Debug mode: off
+    
     Running on http://127.0.0.1:8050/ (Press CTRL+C to quit)
 
 4. When finished, return to Terminal and press CTRL+C to quit

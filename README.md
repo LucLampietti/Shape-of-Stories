@@ -31,14 +31,18 @@ As a total movie addict looking to practice data viz techniques, I decided to tr
 2. In Terminal, navigate to the stored directory and run the following command: python3 ShapeOfStories.py 
 3. This will return the following. Copy the URL into your web browser to view the dashboard.
 
-    Dash is running on http://127.0.0.1:8050/
+    Dash is running on http://127.0.0.1:8050/ <-- Example URL
 
- * Serving Flask app "ShapeOfStories" (lazy loading)
- * Environment: production
-   WARNING: This is a development server. Do not use it in a production deployment.
-   Use a production WSGI server instead.
- * Debug mode: off
- * Running on http://127.0.0.1:8050/ (Press CTRL+C to quit)
+    Serving Flask app "ShapeOfStories" (lazy loading)
+    Environment: production
+    WARNING: This is a development server. Do not use it in a production deployment.
+    Use a production WSGI server instead.
+    Debug mode: off
+    Running on http://127.0.0.1:8050/ (Press CTRL+C to quit)
 
 4. When finished, return to Terminal and press CTRL+C to quit
-  
+
+
+# Takeaways
+
+

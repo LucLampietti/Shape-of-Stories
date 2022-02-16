@@ -1,3 +1,5 @@
+![alt text](https://github.com/LucLampietti/Shape-of-Stories/blob/a2847ab7788cad46928b0b5b8425e9588ac19ae9/Screenshots/Lebowski.png)
+
 # Shape-of-Stories
 A movie script visualizer based on Kurt Vonnegut's rejected thesis, The Shape of Stories. This was a personal project coded in Python using BeautifulSoup for webscraping, Python's Natural Language Toolkit (NLTK) for sentiment analysis, and Dash with Plotly for visualization. 
 
@@ -50,4 +52,5 @@ As a total movie addict looking to practice data viz techniques, I decided to tr
 
 # Takeaways
 
+Sentiment analysis as performed here is too reductionist to capture all the nuance of a movie. Thus my program does not do a good job interpreting sarcasm or understanding that violent or obnoxious langauge can sometimes beneficial to the protagonist. That being said, I've attached screenshots of examples where popular RomComs like Crazy, Stupid, Love or The Big Sick fit nicely into Vonnegut's "Boy Meets Girl" story arc of up-down-up. Taking a look at one of my favorite directors, Martin Scorcese, we see his movies are characterized by large fluctuations between highs and lows, with the lows typically becoming bigger as the movie progresses. This is true of The Wolf of Wall Street and Casino where the stories are about Icarus-like characters in the crime-world. Then there's my favorite movie of all, The Big Lebowski by the Coen Brothers. In Vonnegut's lecture, he posits that the truest-to-life movies are the ones that fluctuate randomly around the x-axis, replicating life's unpredictable ups and downs or, as the Dude would say, strikes and gutters.
 

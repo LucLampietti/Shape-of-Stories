@@ -1,3 +1,4 @@
+# Import necessary dash and plotly libraries for dashboard visualization
 import dash
 from dash import html
 from dash import dcc
@@ -5,6 +6,8 @@ import plotly.graph_objects as go
 import plotly.express as px
 from dash.dependencies import Input, Output
 
+# Import necessary libraries for webscraping (bs4, requests), text pattern recognition (regex),
+# dataset manipulation (numpy, pandas), and sentiment analysis (nltk)
 import re
 import requests
 import numpy as np
@@ -17,7 +20,7 @@ app = dash.Dash()
 h3_desc = html.P(["A movie script visualizer based on", html.Br(), "Kurt Vonnegut's rejected master's thesis"])
 instructions = html.P(["How To: Enter a movie title below. If listed on IMSDb, the code retrieves the script and performs sentiment analysis line-by-line.",
                        html.Br(), "Use the slider to adjust the smoothness of the curve. Hover over areas of the graph to see corresponding excerpts of the script."])
-
+# Dashboard formatting using HTML components
 app.layout = html.Div(id = 'parent', children = [
     html.Div(children=[
         html.H1(id = 'H1', children = 'The Shape of Stories',
@@ -43,42 +46,52 @@ app.layout = html.Div(id = 'parent', children = [
     html.Div(id='json_data', style={'display': 'none'})
 ])
 
+# Backend retrieval, parsing, and analysis of movie script
 @app.callback(Output('json_data', 'children'),
               [Input('title', 'value'),
                Input('slider', 'value')])
 def retrieve_data(title, slider):
+    # Convert user input into usable URL
     if title == '':
         return 'ERROR: No title entered.'
     if title[:4] == 'The ':
         title = title[4:] + ', The'
     title = re.sub(' ', '-', title)
     url = 'https://imsdb.com/scripts/' + title + '.html'
+    # Request webpage data as html block and isolate preformatted text with <pre> tag
     data  = requests.get(url).text
     soup = BeautifulSoup(data,"html.parser")
     for text in soup.find_all("pre"):
         script = text.get_text()
     if script == '':
         return 'ERROR: No script found.'
+    # Remove extraneous tab and newline characters
     script = re.sub('\r', ' ', script)
     lines = re.split('\n', script)
+    # Convert to pd.Dataframe and drop NaN values
     df = pd.DataFrame(lines, columns=['Lines'])
     df['Lines'].replace(' ', np.nan, inplace = True)
     df.dropna(inplace = True)
     df.reset_index(drop = True, inplace = True)
     length = len(df)
+    # Create instance of SentimentAnalyzer and generate raw sentiment scores per row in df 
     sia = SentimentIntensityAnalyzer()
     df['Raw_Score'] = df.apply(lambda row:
                            sia.polarity_scores(row['Lines'])['compound'], 
                            axis=1)
+    # Use slider value to provide rolling window averages of sentiment scores                   
     df['Rolling_Score'] = df['Raw_Score'].rolling(window=slider,
                                               min_periods=1,
                                               center=True,
                                               win_type='triang').mean()
+    # Create two separate columns of positive/negative scores for independent graphing                                          
     df['Rolling_Score_Pos'] = df['Rolling_Score'].mask(df['Rolling_Score'] < 0, 0)
     df['Rolling_Score_Neg'] = df['Rolling_Score'].mask(df['Rolling_Score'] > 0, 0)
+    #Store scores in non-displayed JSON file for sharing/updating amongst all HTML components
     return df.to_json()
 
 
+# Graph sentiment scores (positive and negative independent using blue/red respectively)
 @app.callback(Output('graph', 'figure'), 
               Input('json_data', 'children'))
 def update_graph(json_data):
@@ -103,6 +116,7 @@ def update_graph(json_data):
     return fig
 
 
+# Use hover data to retrieve corresponding text excerpt
 @app.callback(Output('excerpt', 'children'),
               [Input('json_data', 'children'),
                Input('graph', 'hoverData')])
@@ -115,10 +129,12 @@ def update_excerpt(json_data, hoverData):
         return 'No Script Found :('
     excerpt_list = ['EXCERPT:', html.Br(), 
                     html.Br(), html.Br()]
+    # Retrieve x-value of mouse location                
     try:
         x = hoverData['points'][0]['x']
     except TypeError:
         return html.P(html.Br(), 'EXCERPT:')
+    # Fetch 20 lines corresponding to that x-value
     for i in range(20):
         excerpt_list.append(df['Lines'][x+i])
         excerpt_list.append(html.Br())
